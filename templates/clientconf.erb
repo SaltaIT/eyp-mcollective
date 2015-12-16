@@ -1,0 +1,26 @@
+main_collective = mcollective
+<% if @subcollectives -%>
+collectives = mcollective,<%= @subcollectives.reject(&:empty?).join(',') %>
+<% else -%>
+collectives = mcollective
+<% end -%>
+libdir = <%= @libdir %>
+logfile = /var/log/mcollective.log
+loglevel = info
+
+# Plugins
+securityprovider = psk
+plugin.psk = <%= @psk %>
+
+connector = activemq
+plugin.activemq.pool.size = 1
+plugin.activemq.pool.1.host = <%= @hostname %>
+plugin.activemq.pool.1.port = 6163
+plugin.activemq.pool.1.user = <%= @username %>
+plugin.activemq.pool.1.password = <%= @password %>
+
+
+# Facts
+factsource = yaml
+plugin.yaml = /etc/mcollective/facts.yaml
+
