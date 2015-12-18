@@ -95,6 +95,7 @@ class mcollective	(
 		exec { "mkdir -p ${libdir} mcollective agent":
 			command => "mkdir -p ${libdir}/mcollective/agent",
 			creates => "${libdir}/mcollective/agent",
+			require => Package[$mcollectiveagentpackages],
 		}
 
 		#agent rmrf
