@@ -57,6 +57,7 @@ class mcollective::params {
 							#mcollecitve agent
 
 							$mcollectiveagentpackages= [ 'mcollective', 'ruby-stomp' ]
+							$mcollectiveclientpackages= [ 'mcollective-client' ]
 							$mcollectiveagentservice='mcollective'
 							$puppetlabspackage='http://apt.puppetlabs.com/puppetlabs-release-trusty.deb'
 							$puppetlabspackageprovider='dpkg'

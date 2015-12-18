@@ -165,6 +165,13 @@ class mcollective	(
 
 	if($client)
 	{
+		if($mcollectiveclientpackages!=undef)
+		{
+			package { $mcollectiveclientpackages:
+				ensure => 'installed',
+			}
+		}
+
 		if(! $agent)
 		{
 			if member($custom_plugins, 'rmrf')
