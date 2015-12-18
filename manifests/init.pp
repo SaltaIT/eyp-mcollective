@@ -11,7 +11,7 @@ class mcollective	(
 				$agent=true,
 				$client=false,
 				$plugins_packages = [ 'package', 'service', 'puppet' ],
-				$plugins_packages_ensure='absent',
+				$plugins_packages_ensure='present',
 				$custom_plugins = [ 'rmrf' ],
 
 			) inherits mcollective::params {
