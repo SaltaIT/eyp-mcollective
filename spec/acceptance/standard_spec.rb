@@ -2,7 +2,7 @@ require 'spec_helper_acceptance'
 
 describe 'mcollective class' do
 
-  context 'basic setup' do
+  context 'basic setup (mcollective client with activemq)' do
     # Using puppet_apply as a helper
     it 'should work with no errors based on the example' do
       pp = <<-EOF
