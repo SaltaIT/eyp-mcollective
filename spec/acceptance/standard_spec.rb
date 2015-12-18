@@ -25,11 +25,8 @@ describe 'mcollective class' do
       expect(apply_manifest(pp).exit_code).to eq(0)
     end
 
-    it 'yui --version should give us the default version (2.4.8)' do
-       shell("/usr/local/bin/yui --version") do |r|
-         expect(r.stderr).to match(/2\.4\.8/)
-       end
-     end
-
+    it 'mco ping' do
+      expect(shell("sleep 60; mco ping -t 5 --dt 5 --connection-timeout 5").exit_code).to be_zero
+    end
   end
 end
