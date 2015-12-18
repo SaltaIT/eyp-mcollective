@@ -92,6 +92,11 @@ class mcollective	(
 			)
 		}
 
+		exec { "mkdir -p ${libdir} mcollective agent":
+			command => "mkdir -p ${libdir}/mcollective/agent",
+			creates => "${libdir}/mcollective/agent",
+		}
+
 		#agent rmrf
 		if member($custom_plugins, 'rmrf')
 		{
@@ -103,7 +108,7 @@ class mcollective	(
 				mode     => '0644',
 				source 	 => "puppet:///modules/${module_name}/rmrf/rmrf.rb",
 				notify   => Service[$mcollectiveagentservice],
-				require  => Package[$mcollectiveagentpackages],
+				require  => [Exec["mkdir -p ${libdir} mcollective agent"], Package[$mcollectiveagentpackages]],
 			}
 
 			if ! defined(File["${libdir}/mcollective/agent/rmrf.ddl"])
@@ -115,7 +120,7 @@ class mcollective	(
 					mode     => '0644',
 					source 	 => "puppet:///modules/${module_name}/rmrf/rmrf.ddl",
 					notify   => Service[$mcollectiveagentservice],
-					require  => Package[$mcollectiveagentpackages],
+					require  => [Exec["mkdir -p ${libdir} mcollective agent"], Package[$mcollectiveagentpackages]],
 				}
 			}
 
@@ -172,6 +177,7 @@ class mcollective	(
 						group    => 'root',
 						mode     => '0644',
 						source 	 => "puppet:///modules/${module_name}/rmrf/rmrf.ddl",
+						require  => Exec["mkdir -p ${libdir} mcollective agent"],
 					}
 				}
 			}
