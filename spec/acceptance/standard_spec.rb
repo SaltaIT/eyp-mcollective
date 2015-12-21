@@ -86,7 +86,7 @@ describe 'mcollective class' do
     end
 
     it 'mco ping should fail to connect to a closed port' do
-      expect(shell("sleep 60; mco ping -t 5 --dt 5 --connection-timeout 5").exit_code).to_not be_zero
+      expect(shell("sleep 60; mco ping -t 5 --dt 5 --connection-timeout 5")).to raise_error
     end
   end
 
