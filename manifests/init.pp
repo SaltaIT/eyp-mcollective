@@ -3,6 +3,7 @@ class mcollective	(
 				$username="mcollective",
 				$password,
 				$hostname,
+				$stomp_port=$mcollective::params::stomp_port_default,
 				$psk=$mcollective::params::default_psk,
 				$customfactspattern=undef,
 				$customfactsfile='/etc/mcollective/facts.yaml',

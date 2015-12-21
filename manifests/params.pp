@@ -3,6 +3,8 @@ class mcollective::params {
 	$collector_default="activemq"
 	$default_psk="viscalaterralliure"
 
+	$stomp_port_default='6163'
+
 	case $::osfamily
 	{
 		'redhat':

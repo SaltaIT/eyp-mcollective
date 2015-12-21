@@ -2,6 +2,7 @@ class mcollective::activemq	(
 					$adminpw,
 					$username='mcollective',
 					$userpw,
+					$stomp_port=$mcollective::params::stomp_port_default,
 				) inherits params {
 
 	package { $mcollective::params::activemqpackages:
