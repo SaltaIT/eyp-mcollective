@@ -55,7 +55,7 @@ describe 'mcollective class' do
       expect(apply_manifest(pp).exit_code).to eq(0)
     end
 
-    it 'mco ping' do
+    it 'mco ping stomp 8888' do
       expect(shell("sleep 60; mco ping -t 5 --dt 5 --connection-timeout 5").exit_code).to be_zero
     end
   end
@@ -85,7 +85,7 @@ describe 'mcollective class' do
       expect(apply_manifest(pp).exit_code).to eq(0)
     end
 
-    it 'mco ping' do
+    it 'mco ping should fail to connect to a closed port' do
       expect(shell("sleep 60; mco ping -t 5 --dt 5 --connection-timeout 5").exit_code).to_not be_zero
     end
   end
