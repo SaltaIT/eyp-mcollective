@@ -37,6 +37,12 @@ class mcollective	(
 		path => '/sbin:/bin:/usr/sbin:/usr/bin',
 	}
 
+	exec { "mkdir -p ${libdir} mcollective agent":
+		command => "mkdir -p ${libdir}/mcollective/agent",
+		creates => "${libdir}/mcollective/agent",
+		require => Package[$mcollectiveagentpackages],
+	}
+
 	if ! defined(Package['puppetlabs-release'])
 	{
 		package { 'puppetlabs-release':
@@ -91,12 +97,6 @@ class mcollective	(
 					notify  => Service[$mcollectiveagentservice],
 				}
 			)
-		}
-
-		exec { "mkdir -p ${libdir} mcollective agent":
-			command => "mkdir -p ${libdir}/mcollective/agent",
-			creates => "${libdir}/mcollective/agent",
-			require => Package[$mcollectiveagentpackages],
 		}
 
 		#agent rmrf
