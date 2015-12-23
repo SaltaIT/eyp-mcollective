@@ -191,6 +191,10 @@ class mcollective	(
 				}
 			}
 		}
+		else
+		{
+			$notify_service_mcollective=Service[$mcollectiveagentservice]
+		}
 
 		if($plugins_packages)
 		{
@@ -206,7 +210,7 @@ class mcollective	(
 				{
 					ensure  => $plugins_packages_ensure,
 					require => Package[$mcollectiveagentpackages],
-					notify  => Service[$mcollectiveagentservice],
+					notify  => $notify_service_mcollective,
 				}
 			)
 		}
