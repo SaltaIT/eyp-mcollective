@@ -67,7 +67,7 @@ class mcollective	(
 	package { $mcollectiveagentpackages:
 		ensure  => $ensure,
 		require => Exec['update puppetlabs repo'],
-		notify  => Service[$mcollectiveagentservice],
+		notify  => $notify_service_mcollective,
 	}
 
 	if($agent)
