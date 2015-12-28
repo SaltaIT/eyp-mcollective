@@ -1,0 +1,11 @@
+---
+language: ruby
+sudo: required
+services:
+  - docker
+script:
+  - bundle exec rspec spec/acceptance
+matrix:
+  include:
+  - rvm: default
+    env: BEAKER_set="ubuntu1404-docker"
