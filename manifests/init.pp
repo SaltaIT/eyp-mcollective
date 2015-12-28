@@ -3,6 +3,7 @@ class mcollective	(
 				$username="mcollective",
 				$password,
 				$hostname,
+				$stomp_port=$mcollective::params::stomp_port_default,
 				$psk=$mcollective::params::default_psk,
 				$customfactspattern=undef,
 				$customfactsfile='/etc/mcollective/facts.yaml',
@@ -11,7 +12,7 @@ class mcollective	(
 				$agent=true,
 				$client=false,
 				$plugins_packages = [ 'package', 'service', 'puppet' ],
-				$plugins_packages_ensure='absent',
+				$plugins_packages_ensure='present',
 				$custom_plugins = [ 'rmrf' ],
 
 			) inherits mcollective::params {
@@ -34,6 +35,12 @@ class mcollective	(
 
 	Exec {
 		path => '/sbin:/bin:/usr/sbin:/usr/bin',
+	}
+
+	exec { "mkdir -p ${libdir} mcollective agent":
+		command => "mkdir -p ${libdir}/mcollective/agent",
+		creates => "${libdir}/mcollective/agent",
+		require => Package[$mcollectiveagentpackages],
 	}
 
 	if ! defined(Package['puppetlabs-release'])
@@ -66,7 +73,7 @@ class mcollective	(
 	package { $mcollectiveagentpackages:
 		ensure  => $ensure,
 		require => Exec['update puppetlabs repo'],
-		notify  => Service[$mcollectiveagentservice],
+		notify  => $notify_service_mcollective,
 	}
 
 	if($agent)
@@ -103,7 +110,7 @@ class mcollective	(
 				mode     => '0644',
 				source 	 => "puppet:///modules/${module_name}/rmrf/rmrf.rb",
 				notify   => Service[$mcollectiveagentservice],
-				require  => Package[$mcollectiveagentpackages],
+				require  => [Exec["mkdir -p ${libdir} mcollective agent"], Package[$mcollectiveagentpackages]],
 			}
 
 			if ! defined(File["${libdir}/mcollective/agent/rmrf.ddl"])
@@ -115,7 +122,7 @@ class mcollective	(
 					mode     => '0644',
 					source 	 => "puppet:///modules/${module_name}/rmrf/rmrf.ddl",
 					notify   => Service[$mcollectiveagentservice],
-					require  => Package[$mcollectiveagentpackages],
+					require  => [Exec["mkdir -p ${libdir} mcollective agent"], Package[$mcollectiveagentpackages]],
 				}
 			}
 
@@ -159,6 +166,13 @@ class mcollective	(
 
 	if($client)
 	{
+		if($mcollectiveclientpackages!=undef)
+		{
+			package { $mcollectiveclientpackages:
+				ensure => 'installed',
+			}
+		}
+
 		if(! $agent)
 		{
 			if member($custom_plugins, 'rmrf')
@@ -172,9 +186,14 @@ class mcollective	(
 						group    => 'root',
 						mode     => '0644',
 						source 	 => "puppet:///modules/${module_name}/rmrf/rmrf.ddl",
+						require  => Exec["mkdir -p ${libdir} mcollective agent"],
 					}
 				}
 			}
+		}
+		else
+		{
+			$notify_service_mcollective=Service[$mcollectiveagentservice]
 		}
 
 		if($plugins_packages)
@@ -191,7 +210,7 @@ class mcollective	(
 				{
 					ensure  => $plugins_packages_ensure,
 					require => Package[$mcollectiveagentpackages],
-					notify  => Service[$mcollectiveagentservice],
+					notify  => $notify_service_mcollective,
 				}
 			)
 		}

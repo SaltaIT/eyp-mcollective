@@ -70,7 +70,7 @@
 
         <transportConnectors>
             <transportConnector name="openwire" uri="tcp://0.0.0.0:6166"/>
-            <transportConnector name="stomp" uri="stomp://0.0.0.0:6163"/>
+            <transportConnector name="stomp" uri="stomp://0.0.0.0:<%= @stomp_port %>"/>
         </transportConnectors>
     </broker>
 

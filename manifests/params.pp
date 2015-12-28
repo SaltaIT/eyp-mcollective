@@ -3,6 +3,8 @@ class mcollective::params {
 	$collector_default="activemq"
 	$default_psk="viscalaterralliure"
 
+	$stomp_port_default='6163'
+
 	case $::osfamily
 	{
 		'redhat':
@@ -57,6 +59,7 @@ class mcollective::params {
 							#mcollecitve agent
 
 							$mcollectiveagentpackages= [ 'mcollective', 'ruby-stomp' ]
+							$mcollectiveclientpackages= [ 'mcollective-client' ]
 							$mcollectiveagentservice='mcollective'
 							$puppetlabspackage='http://apt.puppetlabs.com/puppetlabs-release-trusty.deb'
 							$puppetlabspackageprovider='dpkg'

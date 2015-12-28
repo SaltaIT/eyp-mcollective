@@ -16,7 +16,7 @@ plugin.psk = <%= @psk %>
 connector = activemq
 plugin.activemq.pool.size = 1
 plugin.activemq.pool.1.host = <%= @hostname %>
-plugin.activemq.pool.1.port = 6163
+plugin.activemq.pool.1.port = <%= @stomp_port %>
 plugin.activemq.pool.1.user = <%= @username %>
 plugin.activemq.pool.1.password = <%= @password %>
 
@@ -28,4 +28,3 @@ plugin.yaml = <%= @customfactsfile %>
 <% else -%>
 plugin.yaml = /etc/mcollective/facts.yaml
 <% end -%>
-

@@ -1,0 +1,10 @@
+HOSTS:
+  ubuntu14:
+    roles:
+      - master
+    platform: ubuntu-precise-14.04
+    box : ubuntu14
+    box_url : https://oss-binaries.phusionpassenger.com/vagrant/boxes/latest/ubuntu-14.04-amd64-vbox.box
+    hypervisor : vagrant
+CONFIG:
+  type: foss

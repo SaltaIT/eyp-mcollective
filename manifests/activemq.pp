@@ -2,6 +2,7 @@ class mcollective::activemq	(
 					$adminpw,
 					$username='mcollective',
 					$userpw,
+					$stomp_port=$mcollective::params::stomp_port_default,
 				) inherits params {
 
 	package { $mcollective::params::activemqpackages:
@@ -21,7 +22,7 @@ class mcollective::activemq	(
 	if($mcollective::params::activemq_ln)
 	{
 		file { $mcollective::params::activemq_ln:
-			ensure  => $mcollective     ::params::activemq_lndest,
+			ensure  => $mcollective::params::activemq_lndest,
 			require => File[$mcollective::params::activemq_conf],
 			notify  => Service['activemq'],
 		}
