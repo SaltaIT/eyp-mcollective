@@ -84,6 +84,9 @@ mcollective::plugins_packages_ensure: installed
 
 ### mcollective::activemq
 
+* *mcollective::activemq::adminpw*: activemq's admin password
+* *mcollective::activemq::username*: activemq user (default: mcollective)
+* *mcollective::activemq::userpw*: password for *mcollective::activemq::username*
 
 ## Reference
 
