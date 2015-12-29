@@ -3,77 +3,97 @@
 #### Table of Contents
 
 1. [Overview](#overview)
-2. [Module Description - What the module does and why it is useful](#module-description)
-3. [Setup - The basics of getting started with mcollective](#setup)
+2. [Module Description](#module-description)
+3. [Setup](#setup)
     * [What mcollective affects](#what-mcollective-affects)
     * [Setup requirements](#setup-requirements)
     * [Beginning with mcollective](#beginning-with-mcollective)
-4. [Usage - Configuration options and additional functionality](#usage)
-5. [Reference - An under-the-hood peek at what the module is doing and how](#reference)
-5. [Limitations - OS compatibility, etc.](#limitations)
-6. [Development - Guide for contributing to the module](#development)
+4. [Usage](#usage)
+5. [Reference](#reference)
+5. [Limitations](#limitations)
 
 ## Overview
 
-A one-maybe-two sentence summary of what the module does/what problem it solves.
-This is your 30 second elevator pitch for your module. Consider including
-OS/Puppet version it works with.
+Setups mcollective agent and client
 
 ## Module Description
 
-If applicable, this section should have a brief description of the technology
-the module integrates with and what that integration enables. This section
-should answer the questions: "What does this module *do*?" and "Why would I use
-it?"
-
-If your module has a range of functionality (installation, configuration,
-management, etc.) this is the time to mention it.
+This module can manage the following mcollective components:
+* activemq
+* mcollective agent (daemon)
+* mcollective client (mco)
 
 ## Setup
 
 ### What mcollective affects
 
-* A list of files, packages, services, or operations that the module will alter,
-  impact, or execute on the system it's installed on.
-* This is a great place to stick any warnings.
-* Can be in list or paragraph form.
+#### activemq
+* Everything under /etc/activemq
+
+#### mcollective agent
+* Everything under /etc/mcollective
+* Installs mcollective plugins on it's libdir
+
+#### mcollecitve client
+* Everything under /etc/mcollective
+* Installs mcollective plugins on it's libdir
 
 ### Setup Requirements **OPTIONAL**
 
-If your module requires anything extra before setting up (pluginsync enabled,
-etc.), mention it here.
+This module requires pluginsync enabled
 
 ### Beginning with mcollective
 
-The very basic steps needed for a user to get the module up and running.
+mcollective agent:
 
-If your most recent release breaks compatibility or requires particular steps
-for upgrading, you may wish to include an additional section here: Upgrading
-(For an example, see http://forge.puppetlabs.com/puppetlabs/firewall).
+```yaml
+classes:
+  - mcollecitve
+mcollective::password: somepassword
+mcollective::hostname: puppet
+mcollective::psk: somepsk
+mcollective::plugins_packages_ensure: installed
+```
+
+mcollective client and activemq daemon:
+
+```yaml
+classes:
+  - mcollective
+  - mcollective::activemq
+mcollective::activemq::adminpw: adminpassword
+mcollective::activemq::userpw: somepassword
+mcollective::client: true
+mcollective::password: somepassword
+mcollective::hostname: puppet
+mcollective::psk: somepsk
+mcollective::plugins_packages_ensure: installed
+```
 
 ## Usage
 
-Put the classes, types, and resources for customizing, configuring, and doing
-the fancy stuff with your module here.
+### mcollective
+* *mcollective::hostname*: activemq hostname
+* *mcollective::username*: activemq username (default: mcollective)
+* *mcollective::password*: activemq password
+* *mcollective::psk*: preshared key
+* *mcollective::plugins_packages_ensure*: plugins status (default: present)
+* *mcollective::plugins_packages*: plugins to be installed (default: package, service, puppet)
+* *mcollective::agent*: install agent (default: true)
+* *mcollective::client*: install client (default: false)
+
+### mcollective::activemq
+
+* *mcollective::activemq::adminpw*: activemq's admin password
+* *mcollective::activemq::username*: activemq user (default: mcollective)
+* *mcollective::activemq::userpw*: password for *mcollective::activemq::username*
 
 ## Reference
 
-Here, list the classes, types, providers, facts, etc contained in your module.
-This section should include all of the under-the-hood workings of your module so
-people know what the module is touching on their system but don't need to mess
-with things. (We are working on automating this section!)
+ActiveMQ on CentOS 6: http://systemadmin.es/2015/06/instalar-mcollective-con-activemq-en-centos-6
 
 ## Limitations
 
-This is where you list OS compatibility, version compatibility, etc.
-
-## Development
-
-Since your module is awesome, other users will want to play with it. Let them
-know what the ground rules for contributing are.
-
-## Release Notes/Contributors/Etc **Optional**
-
-If you aren't using changelog, put your release notes here (though you should
-consider using changelog). You may also add any additional sections you feel are
-necessary or important to include here. Please use the `## ` header.
+Tested on:
+* CentOS 6
+* Ubuntu 14.04
