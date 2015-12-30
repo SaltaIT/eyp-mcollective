@@ -5,9 +5,6 @@ describe 'mcollective class' do
   context 'basic setup (mcollective client with activemq)' do
     # Using puppet_apply as a helper
     it 'should work with no errors' do
-
-      shell("yum install rubygems -y")
-
       pp = <<-EOF
 
       class { 'mcollective':
