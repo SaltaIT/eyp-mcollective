@@ -5,6 +5,9 @@ describe 'mcollective class' do
   context 'basic setup (mcollective client with activemq)' do
     # Using puppet_apply as a helper
     it 'should work with no errors' do
+
+      shell("yum install rubygems -y")
+
       pp = <<-EOF
 
       class { 'mcollective':
@@ -23,6 +26,10 @@ describe 'mcollective class' do
       # Run it twice and test for idempotency
       expect(apply_manifest(pp).exit_code).to_not eq(1)
       expect(apply_manifest(pp).exit_code).to eq(0)
+    end
+
+    describe port(6163) do
+      it { should be_listening }
     end
 
     it "installs required packages" do
@@ -58,6 +65,10 @@ describe 'mcollective class' do
       # Run it twice and test for idempotency
       expect(apply_manifest(pp).exit_code).to_not eq(1)
       expect(apply_manifest(pp).exit_code).to eq(0)
+    end
+
+    describe port(8888) do
+      it { should be_listening }
     end
 
     it "installs required packages" do
