@@ -1,6 +1,6 @@
 # mcollective
 
-[![Build Status](https://travis-ci.org/AtlasIT-AM/eyp-mcollective.png?branch=master)](https://travis-ci.org/AtlasIT-AM/eyp-mcollective)
+AtlasIT-AM/eyp-mcollective: [![Build Status](https://travis-ci.org/AtlasIT-AM/eyp-mcollective.png?branch=master)](https://travis-ci.org/AtlasIT-AM/eyp-mcollective)
 
 #### Table of Contents
 
