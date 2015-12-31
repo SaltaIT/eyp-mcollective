@@ -1,6 +1,6 @@
 class mcollective  (
         $connector=$mcollective::params::collector_default,
-        $username="mcollective",
+        $username='mcollective',
         $password,
         $hostname,
         $stomp_port=$mcollective::params::stomp_port_default,
