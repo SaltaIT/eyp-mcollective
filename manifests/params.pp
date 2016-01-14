@@ -1,6 +1,6 @@
 class mcollective::params {
 
-  $collector_default="activemq"
+  $connector_default="activemq"
   $default_psk="viscalaterralliure"
 
   $stomp_port_default='6163'

@@ -1,5 +1,5 @@
 class mcollective  (
-        $connector=$mcollective::params::collector_default,
+        $connector=$mcollective::params::connector_default,
         $username='mcollective',
         $password,
         $hostname,
@@ -23,7 +23,7 @@ class mcollective  (
   validate_string($hostname)
   validate_string($psk)
 
-  validate_re($connector, [ '^activemq$' ], "Not a supported connector: $version")
+  validate_re($connector, [ '^activemq$' ], "Not a supported connector: ${connector}")
 
   validate_re($ensure, [ '^installed$', '^latest$' ], "Not a valid package status: ${package_status}")
 
