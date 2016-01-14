@@ -190,6 +190,7 @@ class mcollective  (
           }
         }
       }
+      $notify_service_mcollective=undef
     }
     else
     {
