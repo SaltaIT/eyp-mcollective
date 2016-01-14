@@ -27,6 +27,15 @@ class mcollective  (
 
   validate_re($ensure, [ '^installed$', '^latest$' ], "Not a valid package status: ${ensure}")
 
+  if(! $agent)
+  {
+    $notify_service_mcollective=undef
+  }
+  else
+  {
+    $notify_service_mcollective=Service[$mcollectiveagentservice]
+  }
+
 
   if($subcollectives)
   {
@@ -190,11 +199,6 @@ class mcollective  (
           }
         }
       }
-      $notify_service_mcollective=undef
-    }
-    else
-    {
-      $notify_service_mcollective=Service[$mcollectiveagentservice]
     }
 
     if($plugins_packages)
