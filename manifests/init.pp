@@ -25,7 +25,7 @@ class mcollective  (
 
   validate_re($connector, [ '^activemq$' ], "Not a supported connector: ${connector}")
 
-  validate_re($ensure, [ '^installed$', '^latest$' ], "Not a valid package status: ${package_status}")
+  validate_re($ensure, [ '^installed$', '^latest$' ], "Not a valid package status: ${ensure}")
 
 
   if($subcollectives)
