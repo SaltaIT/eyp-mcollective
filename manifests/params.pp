@@ -14,6 +14,7 @@ class mcollective::params {
       #mcollective agent
 
       $mcollectiveagentpackages= [ 'mcollective', 'rubygem-stomp' ]
+      $mcollectiveclientpackages = undef
       $mcollectiveagentservice='mcollective'
       $puppetlabspackageprovider='rpm'
 
