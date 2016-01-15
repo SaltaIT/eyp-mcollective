@@ -1,5 +1,5 @@
 class mcollective  (
-        $connector=$mcollective::params::collector_default,
+        $connector=$mcollective::params::connector_default,
         $username='mcollective',
         $password,
         $hostname,
@@ -23,9 +23,18 @@ class mcollective  (
   validate_string($hostname)
   validate_string($psk)
 
-  validate_re($connector, [ '^activemq$' ], "Not a supported connector: $version")
+  validate_re($connector, [ '^activemq$' ], "Not a supported connector: ${connector}")
 
-  validate_re($ensure, [ '^installed$', '^latest$' ], "Not a valid package status: ${package_status}")
+  validate_re($ensure, [ '^installed$', '^latest$' ], "Not a valid package status: ${ensure}")
+
+  if(! $agent)
+  {
+    $notify_service_mcollective=undef
+  }
+  else
+  {
+    $notify_service_mcollective=Service[$mcollectiveagentservice]
+  }
 
 
   if($subcollectives)
@@ -166,9 +175,9 @@ class mcollective  (
 
   if($client)
   {
-    if($mcollectiveclientpackages!=undef)
+    if($mcollective::params::mcollectiveclientpackages!=undef)
     {
-      package { $mcollectiveclientpackages:
+      package { $mcollective::params::mcollectiveclientpackages:
         ensure => 'installed',
       }
     }
@@ -190,10 +199,6 @@ class mcollective  (
           }
         }
       }
-    }
-    else
-    {
-      $notify_service_mcollective=Service[$mcollectiveagentservice]
     }
 
     if($plugins_packages)
