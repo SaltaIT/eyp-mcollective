@@ -175,9 +175,9 @@ class mcollective  (
 
   if($client)
   {
-    if($mcollectiveclientpackages!=undef)
+    if($mcollective::params::mcollectiveclientpackages!=undef)
     {
-      package { $mcollectiveclientpackages:
+      package { $mcollective::params::mcollectiveclientpackages:
         ensure => 'installed',
       }
     }
