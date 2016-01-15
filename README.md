@@ -97,5 +97,7 @@ ActiveMQ on CentOS 6: http://systemadmin.es/2015/06/instalar-mcollective-con-act
 ## Limitations
 
 Tested on:
+* CentOS 5
 * CentOS 6
+* CentOS 7
 * Ubuntu 14.04
