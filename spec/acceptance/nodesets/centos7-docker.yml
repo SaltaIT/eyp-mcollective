@@ -7,6 +7,7 @@ HOSTS:
     hypervisor : docker
     image: centos:7
     docker_preserve_image: true
+    docker_cmd: '["/usr/sbin/init"]'
     docker_image_commands:
       - 'rm -rf /var/run/network/*'
       - 'yum install -y gcc make crontabs tar wget'
