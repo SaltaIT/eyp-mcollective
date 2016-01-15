@@ -23,7 +23,12 @@ class mcollective::params {
       $activemq_conf='/etc/activemq/activemq.xml'
       $activemq_conf_template='activemqconf_rh.erb'
 
+      $activemq_ln=undef
+      $activemq_lndest=undef
       $activemq_baseconf='/etc/activemq'
+
+      $activemq_sysconf=undef
+      $activemq_sysconf_template=undef
 
       $activemq_jetty="${activemq_baseconf}/jetty.xml"
       $activemq_jetty_template='activemq_jetty.erb'
