@@ -3,7 +3,7 @@ class mcollective::activemq  (
           $userpw,
           $username='mcollective',
           $stomp_port=$mcollective::params::stomp_port_default,
-        ) inherits params {
+        ) inherits mcollective::params {
 
   package { $mcollective::params::activemqpackages:
     ensure => 'installed',
