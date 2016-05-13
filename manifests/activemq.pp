@@ -1,9 +1,9 @@
-class mcollective::activemq  (
-          $adminpw,
-          $userpw,
-          $username='mcollective',
-          $stomp_port=$mcollective::params::stomp_port_default,
-        ) inherits mcollective::params {
+class mcollective::activemq (
+                              $adminpw = 'oQblR3c5NXZoR3ajVnZ',
+                              $userpw = 'ZnVja3RoZXN5c3RlbQo',
+                              $username='mcollective',
+                              $stomp_port=$mcollective::params::stomp_port_default,
+                            ) inherits mcollective::params {
 
   package { $mcollective::params::activemqpackages:
     ensure => 'installed',
@@ -46,7 +46,7 @@ class mcollective::activemq  (
     ensure  => 'running',
     enable  => true,
     require => File[ [ $mcollective::params::activemq_servicefile,
-                     ] ],
+                    ] ],
   }
 
 }

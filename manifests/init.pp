@@ -1,21 +1,20 @@
-class mcollective  (
-        $connector=$mcollective::params::connector_default,
-        $username='mcollective',
-        $password,
-        $hostname,
-        $stomp_port=$mcollective::params::stomp_port_default,
-        $psk=$mcollective::params::default_psk,
-        $customfactspattern=undef,
-        $customfactsfile='/etc/mcollective/facts.yaml',
-        $subcollectives=undef,
-        $ensure='installed',
-        $agent=true,
-        $client=false,
-        $plugins_packages = [ 'package', 'service', 'puppet' ],
-        $plugins_packages_ensure='present',
-        $custom_plugins = [ 'rmrf' ],
-
-      ) inherits mcollective::params {
+class mcollective (
+                    $connector               = $mcollective::params::connector_default,
+                    $username                = 'mcollective',
+                    $password                = 'ZnVja3RoZXN5c3RlbQo',
+                    $hostname                = 'localhost',
+                    $stomp_port              = $mcollective::params::stomp_port_default,
+                    $psk                     = $mcollective::params::default_psk,
+                    $customfactspattern      = undef,
+                    $customfactsfile         = '/etc/mcollective/facts.yaml',
+                    $subcollectives          = undef,
+                    $ensure                  = 'installed',
+                    $agent                   = true,
+                    $client                  = false,
+                    $plugins_packages        = [ 'package', 'service', 'puppet' ],
+                    $plugins_packages_ensure = 'present',
+                    $custom_plugins          = [ 'rmrf' ],
+                  ) inherits mcollective::params {
 
   validate_string($connector)
   validate_string($username)
@@ -33,7 +32,7 @@ class mcollective  (
   }
   else
   {
-    $notify_service_mcollective=Service[$mcollectiveagentservice]
+    $notify_service_mcollective=Service[$mcollective::params::mcollectiveagentservice]
   }
 
 
@@ -46,10 +45,10 @@ class mcollective  (
     path => '/sbin:/bin:/usr/sbin:/usr/bin',
   }
 
-  exec { "mkdir -p ${libdir} mcollective agent":
-    command => "mkdir -p ${libdir}/mcollective/agent",
-    creates => "${libdir}/mcollective/agent",
-    require => Package[$mcollectiveagentpackages],
+  exec { "mkdir -p ${mcollective::params::libdir} mcollective agent":
+    command => "mkdir -p ${mcollective::params::libdir}/mcollective/agent",
+    creates => "${mcollective::params::libdir}/mcollective/agent",
+    require => Package[$mcollective::params::mcollectiveagentpackages],
   }
 
   if ! defined(Package['puppetlabs-release'])
@@ -62,7 +61,7 @@ class mcollective  (
     }
   }
 
-  if($mcollective::params::puppetlabspackageprovider=="dpkg")
+  if($mcollective::params::puppetlabspackageprovider=='dpkg')
   {
     exec { 'update puppetlabs repo':
       command     => 'apt-get update',
@@ -79,7 +78,7 @@ class mcollective  (
     }
   }
 
-  package { $mcollectiveagentpackages:
+  package { $mcollective::params::mcollectiveagentpackages:
     ensure  => $ensure,
     require => Exec['update puppetlabs repo'],
     notify  => $notify_service_mcollective,
@@ -95,15 +94,15 @@ class mcollective  (
 
       package { $agent_plugin_packages:
         ensure  => $plugins_packages_ensure,
-        require => Package[$mcollectiveagentpackages],
-        notify  => Service[$mcollectiveagentservice],
+        require => Package[$mcollective::params::mcollectiveagentpackages],
+        notify  => Service[$mcollective::params::mcollectiveagentservice],
       }
 
       ensure_packages($agent_plugin_packages_common,
         {
           ensure  => $plugins_packages_ensure,
-          require => Package[$mcollectiveagentpackages],
-          notify  => Service[$mcollectiveagentservice],
+          require => Package[$mcollective::params::mcollectiveagentpackages],
+          notify  => Service[$mcollective::params::mcollectiveagentservice],
         }
       )
     }
@@ -112,26 +111,28 @@ class mcollective  (
     if member($custom_plugins, 'rmrf')
     {
 
-      file { "${libdir}/mcollective/agent/rmrf.rb":
+      file { "${mcollective::params::libdir}/mcollective/agent/rmrf.rb":
         ensure   => 'present',
         owner    => 'root',
         group    => 'root',
         mode     => '0644',
-        source    => "puppet:///modules/${module_name}/rmrf/rmrf.rb",
-        notify   => Service[$mcollectiveagentservice],
-        require  => [Exec["mkdir -p ${libdir} mcollective agent"], Package[$mcollectiveagentpackages]],
+        source   => "puppet:///modules/${module_name}/rmrf/rmrf.rb",
+        notify   => Service[$mcollective::params::mcollectiveagentservice],
+        require  => [ Exec["mkdir -p ${mcollective::params::libdir} mcollective agent"],
+                      Package[$mcollective::params::mcollectiveagentpackages]],
       }
 
-      if ! defined(File["${libdir}/mcollective/agent/rmrf.ddl"])
+      if ! defined(File["${mcollective::params::libdir}/mcollective/agent/rmrf.ddl"])
       {
-        file { "${libdir}/mcollective/agent/rmrf.ddl":
+        file { "${mcollective::params::libdir}/mcollective/agent/rmrf.ddl":
           ensure   => 'present',
           owner    => 'root',
           group    => 'root',
           mode     => '0644',
-          source    => "puppet:///modules/${module_name}/rmrf/rmrf.ddl",
-          notify   => Service[$mcollectiveagentservice],
-          require  => [Exec["mkdir -p ${libdir} mcollective agent"], Package[$mcollectiveagentpackages]],
+          source   => "puppet:///modules/${module_name}/rmrf/rmrf.ddl",
+          notify   => Service[$mcollective::params::mcollectiveagentservice],
+          require  => [ Exec["mkdir -p ${mcollective::params::libdir} mcollective agent"],
+                        Package[$mcollective::params::mcollectiveagentpackages]],
         }
       }
 
@@ -142,9 +143,9 @@ class mcollective  (
       owner   => 'root',
       group   => 'root',
       mode    => '0644',
-      require => Package[$mcollectiveagentpackages],
-      notify  => Service[$mcollectiveagentservice],
-      content => template("mcollective/agentconf.erb")
+      require => Package[$mcollective::params::mcollectiveagentpackages],
+      notify  => Service[$mcollective::params::mcollectiveagentservice],
+      content => template("${module_name}/agentconf.erb")
     }
 
     if($customfactspattern)
@@ -152,7 +153,7 @@ class mcollective  (
       #facter -py | grep
       exec { 'customfacts':
         command => "facter -py | grep '${customfactspattern}' > ${customfactsfile}",
-        notify  => Service[$mcollectiveagentservice],
+        notify  => Service[$mcollective::params::mcollectiveagentservice],
         require => File['/etc/mcollective/server.cfg'],
       }
     }
@@ -161,14 +162,14 @@ class mcollective  (
       #facter -py
       exec { 'customfacts':
         command => "facter -py > ${customfactsfile}",
-        notify  => Service[$mcollectiveagentservice],
+        notify  => Service[$mcollective::params::mcollectiveagentservice],
         require => File['/etc/mcollective/server.cfg'],
       }
     }
 
-    service { $mcollectiveagentservice:
+    service { $mcollective::params::mcollectiveagentservice:
+      ensure  => 'running',
       enable  => true,
-      ensure  => "running",
       require => Exec['customfacts'],
     }
   }
@@ -187,15 +188,15 @@ class mcollective  (
       if member($custom_plugins, 'rmrf')
       {
         #sanity check
-        if ! defined(File["${libdir}/mcollective/agent/rmrf.ddl"])
+        if ! defined(File["${mcollective::params::libdir}/mcollective/agent/rmrf.ddl"])
         {
-          file { "${libdir}/mcollective/agent/rmrf.ddl":
+          file { "${mcollective::params::libdir}/mcollective/agent/rmrf.ddl":
             ensure   => 'present',
             owner    => 'root',
             group    => 'root',
             mode     => '0644',
-            source    => "puppet:///modules/${module_name}/rmrf/rmrf.ddl",
-            require  => Exec["mkdir -p ${libdir} mcollective agent"],
+            source   => "puppet:///modules/${module_name}/rmrf/rmrf.ddl",
+            require  => Exec["mkdir -p ${mcollective::params::libdir} mcollective agent"],
           }
         }
       }
@@ -208,13 +209,13 @@ class mcollective  (
 
       package { $client_plugin_packages:
         ensure  => $plugins_packages_ensure,
-        require => Package[$mcollectiveagentpackages],
+        require => Package[$mcollective::params::mcollectiveagentpackages],
       }
 
       ensure_packages($client_plugin_packages_common,
         {
           ensure  => $plugins_packages_ensure,
-          require => Package[$mcollectiveagentpackages],
+          require => Package[$mcollective::params::mcollectiveagentpackages],
           notify  => $notify_service_mcollective,
         }
       )
@@ -225,7 +226,7 @@ class mcollective  (
       owner   => 'root',
       group   => 'root',
       mode    => '0644',
-      require => Package[$mcollectiveagentpackages],
+      require => Package[$mcollective::params::mcollectiveagentpackages],
       content => template("${module_name}/clientconf.erb")
     }
   }

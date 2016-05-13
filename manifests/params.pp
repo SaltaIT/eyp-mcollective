@@ -1,7 +1,7 @@
 class mcollective::params {
 
-  $connector_default="activemq"
-  $default_psk="viscalaterralliure"
+  $connector_default='activemq'
+  $default_psk='viscalaterralliure'
 
   $stomp_port_default='6163'
 
@@ -55,7 +55,7 @@ class mcollective::params {
         {
           $puppetlabspackage='http://yum.puppetlabs.com/puppetlabs-release-el-7.noarch.rpm'
         }
-        default: { fail("Unsupported RHEL/CentOS version! - $::operatingsystemrelease")  }
+        default: { fail("Unsupported RHEL/CentOS version! - ${::operatingsystemrelease}")  }
       }
 
     }
@@ -102,13 +102,13 @@ class mcollective::params {
 
               $activemq_servicefile=$activemq_ln
             }
-            default: { fail("Unsupported Ubuntu version! - $::operatingsystemrelease")  }
+            default: { fail("Unsupported Ubuntu version! - ${::operatingsystemrelease}")  }
           }
         }
-        'Debian': { fail("Unsupported")  }
-        default: { fail("Unsupported Debian flavour!")  }
+        'Debian': { fail('Unsupported')  }
+        default: { fail('Unsupported Debian flavour!')  }
       }
     }
-    default: { fail("Unsupported OS!")  }
+    default: { fail('Unsupported OS!')  }
   }
 }
