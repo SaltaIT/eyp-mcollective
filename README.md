@@ -1,6 +1,6 @@
 # mcollective
 
-**AtlasIT-AM/eyp-mcollective**: [![Build Status](https://travis-ci.org/AtlasIT-AM/eyp-mcollective.png?branch=master)](https://travis-ci.org/AtlasIT-AM/eyp-mcollective)
+**NTTCom-MS/eyp-mcollective**: [![Build Status](https://travis-ci.org/NTTCom-MS/eyp-mcollective.png?branch=master)](https://travis-ci.org/NTTCom-MS/eyp-mcollective)
 
 #### Table of Contents
 
