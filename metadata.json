@@ -1,6 +1,6 @@
 {
   "name": "eyp-mcollective",
-  "version": "0.1.36",
+  "version": "1.0.36",
   "author": "Jordi Prats",
   "summary": "mcollective agent and client setup - also includes an activemq subclass",
   "license": "Apache-2.0",
