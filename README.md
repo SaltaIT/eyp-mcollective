@@ -1,6 +1,6 @@
 # mcollective
 
-**NTTCom-MS/eyp-mcollective**: [![Build Status](https://travis-ci.org/NTTCom-MS/eyp-mcollective.png?branch=master)](https://travis-ci.org/NTTCom-MS/eyp-mcollective)
+**SaltaIT/eyp-mcollective**: [![Build Status](https://travis-ci.org/SaltaIT/eyp-mcollective.png?branch=master)](https://travis-ci.org/SaltaIT/eyp-mcollective)
 
 #### Table of Contents
 
